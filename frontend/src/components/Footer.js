@@ -7,7 +7,7 @@ function Footer() {
     <div className="Footer">
       <Container >
         <Row>
-          <Col className="text-center py-3">Copyright &copy;Amazon</Col>
+          <Col className="text-center py-3">Copyright &copy;G-Shop</Col>
         </Row>
       </Container>
     </div>
