@@ -2,6 +2,11 @@
 
 > eCommerce platform built with the MERN stack & Redux.
 
+![Screenshot from 2023-01-11 11-52-41](https://user-images.githubusercontent.com/64302444/211733284-415c67b2-78aa-42b1-83c0-5f4f6895e045.png)
+![Screenshot from 2023-01-11 11-52-52](https://user-images.githubusercontent.com/64302444/211733280-16958031-8d07-4312-acb3-440463d37d2d.png)
+
+![Screenshot from 2023-01-11 11-53-00](https://user-images.githubusercontent.com/64302444/211733270-f7e1f23d-b0df-46ef-ad37-e7293dabadbd.png)
+
 
 ## Features
 
