@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "type": "module",
+  "node":"16.20.0",
+  "npm":"8.19.4",
   "scripts": {
     "start":"node backend/server",
     "test": "echo \"Error: no test specified\" && exit 1",
