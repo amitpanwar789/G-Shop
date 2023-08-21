@@ -2,10 +2,10 @@
 
 > eCommerce platform built with the MERN stack & Redux.
 
-![Screenshot from 2023-01-11 11-52-41](https://user-images.githubusercontent.com/64302444/211733284-415c67b2-78aa-42b1-83c0-5f4f6895e045.png)
-![Screenshot from 2023-01-11 11-52-52](https://user-images.githubusercontent.com/64302444/211733280-16958031-8d07-4312-acb3-440463d37d2d.png)
+![Screenshot from 2023-08-21 19-07-04](https://github.com/amitpanwar789/G-Shop/assets/64302444/b5ea0da9-e49e-4c1a-9ab6-2a9a3c2916e9)
 
-![Screenshot from 2023-01-11 11-53-00](https://user-images.githubusercontent.com/64302444/211733270-f7e1f23d-b0df-46ef-ad37-e7293dabadbd.png)
+![Screenshot from 2023-08-21 19-07-14](https://github.com/amitpanwar789/G-Shop/assets/64302444/ea4cb437-43c4-4ce3-98c0-1376e0377143)
+
 
 
 ## Features
