@@ -19,16 +19,21 @@ const Header = ({ history }) => {
     <header>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container fluid>
-          <Link to="/">
-            <Navbar.Brand>G-Shop</Navbar.Brand>
+          <Link class = "text-decoration-none" to="/">
+            <Navbar.Brand >G-Shop</Navbar.Brand>
           </Link>
+          <Container class="d-flex justify-content-end bot" fluid>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
           <Route render={({ history }) => <SearchBox history={history} />} />
-            <Nav className="ml-auto">
-              <Link to="/cart">
-                <Nav.Link href="/cart">
-                  <i className="fas fa-shopping-cart"></i> Cart
+          <Nav
+            className="ml-auto my-2 my-lg-0 "
+            style={{ maxHeight: '80px' }}
+            navbarScroll
+          >
+              <Link class = "text-decoration-none" to="/cart">
+                <Nav.Link  href="/cart">
+                  <i className="fas fa-shopping-cart" ></i> Cart
                 </Nav.Link>
               </Link>
               {userInfo ? (
@@ -39,7 +44,7 @@ const Header = ({ history }) => {
                   </NavDropdown.Item>
                 </NavDropdown>
               ) : (
-                <Link to="/login">
+                <Link class = "text-decoration-none"  to="/login">
                   <Nav.Link href="/login">
                     <i className="fas fa-user"></i> Sign In
                   </Nav.Link>
@@ -47,19 +52,20 @@ const Header = ({ history }) => {
               )}
               {userInfo && userInfo.isAdmin && (
                 <NavDropdown title='Admin' id='adminmenu'>
-                  <Link to='/admin/userlist'>
-                    <NavDropdown.Item href='/admin/userList'>Users</NavDropdown.Item>
+                  <Link class = "text-decoration-none" to='/admin/userlist'>
+                    <NavDropdown.Item class="ml-3" href='/admin/userList'>Users</NavDropdown.Item>
                   </Link>
-                  <Link to='/admin/productlist'>
+                  <Link class = "text-decoration-none" to='/admin/productlist'>
                     <NavDropdown.Item href='/admin/productlist'>Products</NavDropdown.Item>
                   </Link>
-                  <Link to='/admin/orderlist'>
+                  <Link class = "text-decoration-none" to='/admin/orderlist'>
                     <NavDropdown.Item href='/admin/productlist'>Orders</NavDropdown.Item>
                   </Link>
                 </NavDropdown>
               )}
             </Nav>
           </Navbar.Collapse>
+          </Container>
         </Container>
       </Navbar>
     </header>

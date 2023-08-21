@@ -97,7 +97,7 @@ const ProductEditScreen = ({ match, history }) => {
       <Link to="/admin/productlist" className="btn btn-light my-3">
         Go Back
       </Link>
-      <FormContainer>
+      <FormContainer class="mb-4">
         <h1>Edit Product</h1>
         {loadingUpdate && <Loader />}
         {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
@@ -166,7 +166,7 @@ const ProductEditScreen = ({ match, history }) => {
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId="description">
+            <Form.Group class="mb-2" controlId="description">
               <Form.Label>Description</Form.Label>
               <Form.Control
                 type="text"
@@ -176,7 +176,7 @@ const ProductEditScreen = ({ match, history }) => {
               ></Form.Control>
             </Form.Group>
 
-            <Button type="submit" variant="primary">
+            <Button  type="submit" variant="primary">
               Update
             </Button>
           </Form>

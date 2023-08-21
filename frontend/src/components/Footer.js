@@ -1,17 +1,14 @@
-import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import "./Footer.css"
+import React  from 'react';
+import './Footer.css';
 
-function Footer() {
+const Footer = () => {
+  
   return (
-    <div className="Footer">
-      <Container >
-        <Row>
-          <Col className="text-center py-3">Copyright &copy;G-Shop</Col>
-        </Row>
-      </Container>
-    </div>
+    <footer className=".Footer">
+      
+    </footer>
   );
-}
+};
 
 export default Footer;
+

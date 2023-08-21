@@ -69,11 +69,11 @@ const ProductListScreen = ({ history, match }) => {
 
   return (
     <>
-      <Row className="align-items-center">
+      <Row className="align-items-center ">
         <Col>
           <h1>Products</h1>
         </Col>
-        <Col className="text-right">
+        <Col className="text-right col-lg-2">
           <Button className="my-3" onClick={createProductHandler}>
             <i className="fas fa-plus"></i> Create Product
           </Button>
@@ -90,7 +90,7 @@ const ProductListScreen = ({ history, match }) => {
       ) : (
         <>
           <Table striped bordered hover responsive className="table-sm">
-            <thead>
+            <thead className="thead-dark">
               <tr>
                 <th>ID</th>
                 <th>NAME</th>

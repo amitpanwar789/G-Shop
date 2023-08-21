@@ -19,6 +19,7 @@ import {
 } from "../actions/productActions";
 import { PRODUCT_CREATE_REVIEW_RESET } from "../constants/productConstants";
 import Meta from "../components/Meta";
+import "../App.css"
 
 const ProductScreen = ({ history, match }) => {
   const [qty, setQty] = useState(1);
@@ -74,10 +75,10 @@ const ProductScreen = ({ history, match }) => {
         <>
           <Meta title={product.name} />
           <Row>
-            <Col md={6}>
-              <Image src={product.image} alt={product.name} fluid />
+            <Col className="d-flex justify-content-center" md={6}>
+              <Image  src={product.image} alt={product.name} fluid />
             </Col>
-            <Col md={3}>
+            <Col className="m-auto" md={3}>
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <h3>{product.name}</h3>
