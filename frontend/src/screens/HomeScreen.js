@@ -24,12 +24,12 @@ function HomeScreen({ match }) {
     <>
       <Meta />
       {loading ? (
-        <Loader />
+            <Loader />
       ) : error ? (
         <Message variant="danger">{error}</Message>
       ) : (
         <>
-          <Row>
+          <Row xs={1} md={2} className="g-4">
             {products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                 <Product product={product} />

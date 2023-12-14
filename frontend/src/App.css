@@ -6,3 +6,14 @@
 .customImage{
     object-fit: cover;
 }
+
+.product-card {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .product-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 10px 0 rgba(19, 59, 159, 0.2);
+
+  }
+  
