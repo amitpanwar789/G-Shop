@@ -18,7 +18,7 @@ const Header = ({ history }) => {
   };
   return (
     <header>
-      <Navbar bg="primary" data-bs-theme="light" expand="lg" collapseOnSelect>
+      <Navbar style={{backgroundColor: '#2e3192'}} data-bs-theme="light" expand="lg" collapseOnSelect>
         <Container fluid class="d-flex">
           <Link class="text-decoration-none " to="/">
             <Navbar.Brand className="text-light fs-1 mx-4 fw-bolder">
