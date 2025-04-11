@@ -39,7 +39,7 @@ const ProductEditScreen = ({ match, history }) => {
       dispatch({ type: PRODUCT_UPDATE_RESET });
       history.push("/admin/productlist");
     } else {
-      if (!product.name || product._id !== productId) {
+      if (!product?.name || product?._id !== productId) {
         dispatch(listProductDetails(productId));
       } else {
         setName(product.name);
@@ -66,7 +66,7 @@ const ProductEditScreen = ({ match, history }) => {
         },
       };
 
-      const { data } = await axios.post("/api/upload", formData, config);
+      const { data } = await axios.post("/api/upload/", formData, config);
 
       setImage(data);
       setUploading(false);
