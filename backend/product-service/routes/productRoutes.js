@@ -6,7 +6,7 @@ import {
   getProductById,
   getProducts,
   updateProduct,
-} from "../controller/productController.js";
+} from "../controllers/productController.js";
 const router = express.Router();
 import { checkAuth, checkAdmin } from "../middleware/authMiddleware.js";
 

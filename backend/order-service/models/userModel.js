@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import bcryt from 'bcrypt'
+import bcryt from 'bcryptjs'
 
 const userSchema = mongoose.Schema(
   {

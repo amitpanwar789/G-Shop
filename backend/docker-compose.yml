@@ -1,0 +1,83 @@
+version: "3.8"
+
+services:
+  user-service:
+    build: ./user-service
+    ports:
+      - 5000:5000
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb://mongo:27017/users-service
+      - JWT_SECRET=SUP3RS3CR3TK3Y
+      - NODE_ENV=developement
+    networks:
+      - ecommerce-network
+    depends_on:
+      - mongo
+    deploy:
+      replicas: 1
+
+  product-service:
+    build: ./product-service
+    ports:
+      - 5001:5001
+    environment:
+      - PORT=5001
+      - MONGO_URI=mongodb://mongo:27017/products-service
+      - JWT_SECRET=SUP3RS3CR3TK3Y
+      - NODE_ENV=developement
+    networks:
+      - ecommerce-network
+    depends_on:
+      - mongo
+    deploy:
+      replicas: 1
+
+  order-service:
+    build: ./order-service
+    ports:
+      - 5003:5003
+    environment:
+      - PORT=5003
+      - MONGO_URI=mongodb://mongo:27017/orders-service
+      - JWT_SECRET=SUP3RS3CR3TK3Y
+      - NODE_ENV=developement
+    networks:
+      - ecommerce-network
+    depends_on:
+      - mongo
+    deploy:
+      replicas: 1
+
+ 
+  mongo:
+    image: mongo
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo-data-user:/data/db
+    networks:
+      - ecommerce-network
+
+  nginx:
+    image: nginx:latest
+    build:
+      context: .                           
+      dockerfile: ./nginx/Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - ecommerce-network
+    depends_on:
+      - user-service
+      - product-service
+      - order-service
+
+volumes:
+  mongo-data-user:
+
+networks:
+  ecommerce-network:
+    driver: bridge

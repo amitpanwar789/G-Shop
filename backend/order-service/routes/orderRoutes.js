@@ -6,7 +6,7 @@ import {
   getOrderById,
   updateOrderToDelivered,
   updateOrderToPaid,
-} from "../controller/orderController.js";
+} from "../controllers/orderController.js";
 import { checkAdmin, checkAuth } from "../middleware/authMiddleware.js";
 
 router.route("/").post(checkAuth, addOrderItems).get(checkAuth, checkAdmin,getMyOrders);

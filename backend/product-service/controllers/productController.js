@@ -60,7 +60,7 @@ const createProduct = AsyncHandler(async (req, res) => {
   const product = new Product({
     name: name,
     price: price,
-    user: "639d76dcf7a638aee88a8360",
+    user: req.user._id,
     image: image,
     brand: brand,
     category: "custom",
@@ -68,7 +68,6 @@ const createProduct = AsyncHandler(async (req, res) => {
     numReviews: 0,
     description: "Sample description",
   });
-  console.log("gdsas")
   const createdProduct = await product.save();
   res.status(201).json(createdProduct);
 });
