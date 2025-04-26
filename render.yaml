@@ -1,4 +1,4 @@
-# render.yaml (Corrected envVars syntax using fromGroup)
+# render.yaml (Corrected using envVarGroups)
 services:
   # --- User Service ---
   - name: user-service
@@ -9,16 +9,12 @@ services:
     autoDeploy: true
     dockerContext: ./backend/user-service
     dockerfilePath: ./backend/user-service/Dockerfile
-    envVars:
-      - key: PORT         # Regular key/value env var
+    envVarGroups:              # Apply the environment group here
+      - microservice-secrets   # Name of the Env Group created in Render
+    envVars:                   # Define *only* non-group variables here
+      - key: PORT
         value: 5000
-      - key: MONGO_URI    # Env var name available *in* your service
-        fromGroup: microservice-secrets # Name of the Env Group created in Render
-        secretKey: MONGO_ATLAS_URI      # Name of the secret *within* the Env Group
-      - key: JWT_SECRET   # Env var name available *in* your service
-        fromGroup: microservice-secrets # Name of the Env Group created in Render
-        secretKey: SHARED_JWT_SECRET    # Name of the secret *within* the Env Group
-      - key: NODE_ENV     # Regular key/value env var
+      - key: NODE_ENV
         value: production
 
   # --- Product Service ---
@@ -30,15 +26,11 @@ services:
     autoDeploy: true
     dockerContext: ./backend/product-service
     dockerfilePath: ./backend/product-service/Dockerfile
-    envVars:
+    envVarGroups:              # Apply the environment group here
+      - microservice-secrets   # Name of the Env Group created in Render
+    envVars:                   # Define *only* non-group variables here
       - key: PORT
         value: 5001
-      - key: MONGO_URI
-        fromGroup: microservice-secrets
-        secretKey: MONGO_ATLAS_URI
-      - key: JWT_SECRET
-        fromGroup: microservice-secrets
-        secretKey: SHARED_JWT_SECRET
       - key: NODE_ENV
         value: production
 
@@ -51,15 +43,11 @@ services:
     autoDeploy: true
     dockerContext: ./backend/order-service
     dockerfilePath: ./backend/order-service/Dockerfile
-    envVars:
+    envVarGroups:              # Apply the environment group here
+      - microservice-secrets   # Name of the Env Group created in Render
+    envVars:                   # Define *only* non-group variables here
       - key: PORT
         value: 5003
-      - key: MONGO_URI
-        fromGroup: microservice-secrets
-        secretKey: MONGO_ATLAS_URI
-      - key: JWT_SECRET
-        fromGroup: microservice-secrets
-        secretKey: SHARED_JWT_SECRET
       - key: NODE_ENV
         value: production
 
@@ -72,7 +60,7 @@ services:
     autoDeploy: true
     dockerContext: ./backend/nginx
     dockerfilePath: ./backend/nginx/Dockerfile
-    # No secrets needed for nginx in this example
+    # Nginx likely doesn't need the shared secrets group
 
   # --- Optional: Frontend Static Site ---
   # (Include this section if deploying frontend as a static site)
