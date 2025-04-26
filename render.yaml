@@ -1,4 +1,4 @@
-# render.yaml (Corrected using envVarGroups)
+# render.yaml (Corrected: Secrets injected from linked group, defined ONLY in Dashboard)
 services:
   # --- User Service ---
   - name: user-service
@@ -9,13 +9,14 @@ services:
     autoDeploy: true
     dockerContext: ./backend/user-service
     dockerfilePath: ./backend/user-service/Dockerfile
-    envVarGroups:              # Apply the environment group here
-      - microservice-secrets   # Name of the Env Group created in Render
-    envVars:                   # Define *only* non-group variables here
+    # REMOVED invalid envVarGroups field
+    envVars:                   # Define *only* non-secret variables here
       - key: PORT
         value: 5000
       - key: NODE_ENV
         value: production
+      # NOTE: MONGO_URI and JWT_SECRET are NOT defined here.
+      # They will come from the linked Environment Group.
 
   # --- Product Service ---
   - name: product-service
@@ -26,13 +27,13 @@ services:
     autoDeploy: true
     dockerContext: ./backend/product-service
     dockerfilePath: ./backend/product-service/Dockerfile
-    envVarGroups:              # Apply the environment group here
-      - microservice-secrets   # Name of the Env Group created in Render
-    envVars:                   # Define *only* non-group variables here
+    # REMOVED invalid envVarGroups field
+    envVars:                   # Define *only* non-secret variables here
       - key: PORT
         value: 5001
       - key: NODE_ENV
         value: production
+      # NOTE: MONGO_URI and JWT_SECRET are NOT defined here.
 
   # --- Order Service ---
   - name: order-service
@@ -43,13 +44,13 @@ services:
     autoDeploy: true
     dockerContext: ./backend/order-service
     dockerfilePath: ./backend/order-service/Dockerfile
-    envVarGroups:              # Apply the environment group here
-      - microservice-secrets   # Name of the Env Group created in Render
-    envVars:                   # Define *only* non-group variables here
+    # REMOVED invalid envVarGroups field
+    envVars:                   # Define *only* non-secret variables here
       - key: PORT
         value: 5003
       - key: NODE_ENV
         value: production
+      # NOTE: MONGO_URI and JWT_SECRET are NOT defined here.
 
   # --- Nginx Reverse Proxy ---
   - name: nginx
@@ -60,10 +61,10 @@ services:
     autoDeploy: true
     dockerContext: ./backend/nginx
     dockerfilePath: ./backend/nginx/Dockerfile
-    # Nginx likely doesn't need the shared secrets group
+    # No envVars needed here unless nginx specifically requires some
 
   # --- Optional: Frontend Static Site ---
-  # (Include this section if deploying frontend as a static site)
+  # (Include as before if needed)
   # - name: frontend
   #   type: static
   #   repo: https://github.com/amitpanwar789/G-Shop
