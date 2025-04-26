@@ -1,4 +1,4 @@
-# render.yaml
+# render.yaml (Modified for services within 'backend' folder)
 services:
   # --- User Service ---
   - name: user-service         # Render service name (used for internal DNS)
@@ -6,28 +6,30 @@ services:
     env: docker              # Use Docker runtime
     plan: free               # Use the free instance type
     repo: https://github.com/amitpanwar789/G-Shop # Replace with your repo URL
-    autoDeploy: false         # Automatically deploy on push to the main branch
-    dockerContext: ./user-service # Path to the directory containing the Dockerfile
-    dockerfilePath: ./user-service/Dockerfile # Explicit path to Dockerfile
+    autoDeploy: true         # Automatically deploy on push to the main branch
+    # --- Paths updated below ---
+    dockerContext: ./backend/user-service # Path to the directory containing the Dockerfile relative to repo root
+    dockerfilePath: ./backend/user-service/Dockerfile # Explicit path to Dockerfile relative to repo root
     envVars:
-      - key: PORT # App needs to listen on this port
+      - key: PORT
         value: 5000 # The port your app listens on internally
       - key: MONGO_URI
-        fromSecret: MONGO_ATLAS_URI # Reference a secret (see below)
+        fromSecret: MONGO_ATLAS_URI # Reference a secret (created in Render Env Groups)
       - key: JWT_SECRET
         fromSecret: SHARED_JWT_SECRET # Reference a secret
       - key: NODE_ENV
-        value: production # Usually 'production' on cloud platforms
+        value: production
 
   # --- Product Service ---
   - name: product-service
     type: web
     env: docker
     plan: free
-    repo: https://github.com/YOUR_USERNAME/YOUR_REPO
+    repo: https://github.com/amitpanwar789/G-Shop
     autoDeploy: true
-    dockerContext: ./product-service
-    dockerfilePath: ./product-service/Dockerfile
+    # --- Paths updated below ---
+    dockerContext: ./backend/product-service
+    dockerfilePath: ./backend/product-service/Dockerfile
     envVars:
       - key: PORT
         value: 5001
@@ -43,10 +45,11 @@ services:
     type: web
     env: docker
     plan: free
-    repo: https://github.com/YOUR_USERNAME/YOUR_REPO
+    repo: https://github.com/amitpanwar789/G-Shop
     autoDeploy: true
-    dockerContext: ./order-service
-    dockerfilePath: ./order-service/Dockerfile
+    # --- Paths updated below ---
+    dockerContext: ./backend/order-service
+    dockerfilePath: ./backend/order-service/Dockerfile
     envVars:
       - key: PORT
         value: 5003
@@ -58,25 +61,18 @@ services:
         value: production
 
   # --- Nginx Reverse Proxy ---
-  - name: nginx # This will be your public-facing service
+  - name: nginx # This will be your public-facing service (or handle API routing)
     type: web
     env: docker
     plan: free
-    repo: https://github.com/YOUR_USERNAME/YOUR_REPO
+    repo: https://github.com/amitpanwar789/G-Shop
     autoDeploy: true
-    dockerContext: ./nginx
-    dockerfilePath: ./nginx/Dockerfile
-    # Nginx typically listens on 80/443, Render handles external mapping and TLS
-    # Ensure your nginx.conf proxies to Render's internal service names and ports:
+    # --- Paths updated below ---
+    dockerContext: ./backend/nginx
+    dockerfilePath: ./backend/nginx/Dockerfile
+    # IMPORTANT: Ensure your nginx.conf inside ./backend/nginx/
+    # correctly proxies to the internal Render service names:
     # e.g., proxy_pass http://user-service:5000;
-    #       proxy_pass http://product-service:5001;
-    #       proxy_pass http://order-service:5003;
 
-# --- Define Secrets ---
-# You will create these secrets in the Render Dashboard under Environment Groups
-# or individually per service. This example assumes an Environment Group.
-# secrets:
-#   - group: microservice-secrets
-#     key: MONGO_ATLAS_URI # Your full MongoDB Atlas SRV string from Step 1
-#   - group: microservice-secrets
-#     key: SHARED_JWT_SECRET # Your actual JWT secret value
+# Reminder: Define your secrets (MONGO_ATLAS_URI, SHARED_JWT_SECRET) in Render Dashboard
+# under Environment Groups and ensure they are linked or added to each service.
