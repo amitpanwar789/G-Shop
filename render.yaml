@@ -1,23 +1,24 @@
-# render.yaml (Modified for services within 'backend' folder)
+# render.yaml (Corrected envVars syntax using fromGroup)
 services:
   # --- User Service ---
-  - name: user-service         # Render service name (used for internal DNS)
-    type: web                # Service type (web for HTTP services)
-    env: docker              # Use Docker runtime
-    plan: free               # Use the free instance type
+  - name: user-service
+    type: web
+    env: docker
+    plan: free
     repo: https://github.com/amitpanwar789/G-Shop # Replace with your repo URL
-    autoDeploy: true         # Automatically deploy on push to the main branch
-    # --- Paths updated below ---
-    dockerContext: ./backend/user-service # Path to the directory containing the Dockerfile relative to repo root
-    dockerfilePath: ./backend/user-service/Dockerfile # Explicit path to Dockerfile relative to repo root
+    autoDeploy: true
+    dockerContext: ./backend/user-service
+    dockerfilePath: ./backend/user-service/Dockerfile
     envVars:
-      - key: PORT
-        value: 5000 # The port your app listens on internally
-      - key: MONGO_URI
-        fromSecret: MONGO_ATLAS_URI # Reference a secret (created in Render Env Groups)
-      - key: JWT_SECRET
-        fromSecret: SHARED_JWT_SECRET # Reference a secret
-      - key: NODE_ENV
+      - key: PORT         # Regular key/value env var
+        value: 5000
+      - key: MONGO_URI    # Env var name available *in* your service
+        fromGroup: microservice-secrets # Name of the Env Group created in Render
+        secretKey: MONGO_ATLAS_URI      # Name of the secret *within* the Env Group
+      - key: JWT_SECRET   # Env var name available *in* your service
+        fromGroup: microservice-secrets # Name of the Env Group created in Render
+        secretKey: SHARED_JWT_SECRET    # Name of the secret *within* the Env Group
+      - key: NODE_ENV     # Regular key/value env var
         value: production
 
   # --- Product Service ---
@@ -27,16 +28,17 @@ services:
     plan: free
     repo: https://github.com/amitpanwar789/G-Shop
     autoDeploy: true
-    # --- Paths updated below ---
     dockerContext: ./backend/product-service
     dockerfilePath: ./backend/product-service/Dockerfile
     envVars:
       - key: PORT
         value: 5001
       - key: MONGO_URI
-        fromSecret: MONGO_ATLAS_URI
+        fromGroup: microservice-secrets
+        secretKey: MONGO_ATLAS_URI
       - key: JWT_SECRET
-        fromSecret: SHARED_JWT_SECRET
+        fromGroup: microservice-secrets
+        secretKey: SHARED_JWT_SECRET
       - key: NODE_ENV
         value: production
 
@@ -47,32 +49,41 @@ services:
     plan: free
     repo: https://github.com/amitpanwar789/G-Shop
     autoDeploy: true
-    # --- Paths updated below ---
     dockerContext: ./backend/order-service
     dockerfilePath: ./backend/order-service/Dockerfile
     envVars:
       - key: PORT
         value: 5003
       - key: MONGO_URI
-        fromSecret: MONGO_ATLAS_URI
+        fromGroup: microservice-secrets
+        secretKey: MONGO_ATLAS_URI
       - key: JWT_SECRET
-        fromSecret: SHARED_JWT_SECRET
+        fromGroup: microservice-secrets
+        secretKey: SHARED_JWT_SECRET
       - key: NODE_ENV
         value: production
 
   # --- Nginx Reverse Proxy ---
-  - name: nginx # This will be your public-facing service (or handle API routing)
+  - name: nginx
     type: web
     env: docker
     plan: free
     repo: https://github.com/amitpanwar789/G-Shop
     autoDeploy: true
-    # --- Paths updated below ---
     dockerContext: ./backend/nginx
     dockerfilePath: ./backend/nginx/Dockerfile
-    # IMPORTANT: Ensure your nginx.conf inside ./backend/nginx/
-    # correctly proxies to the internal Render service names:
-    # e.g., proxy_pass http://user-service:5000;
+    # No secrets needed for nginx in this example
 
-# Reminder: Define your secrets (MONGO_ATLAS_URI, SHARED_JWT_SECRET) in Render Dashboard
-# under Environment Groups and ensure they are linked or added to each service.
+  # --- Optional: Frontend Static Site ---
+  # (Include this section if deploying frontend as a static site)
+  # - name: frontend
+  #   type: static
+  #   repo: https://github.com/amitpanwar789/G-Shop
+  #   autoDeploy: true
+  #   rootDir: ./frontend
+  #   buildCommand: npm install && npm run build # Adjust as needed
+  #   publishDir: ./frontend/build             # Adjust as needed
+  #   routes:
+  #     - type: rewrite
+  #       source: /*
+  #       destination: /index.html
