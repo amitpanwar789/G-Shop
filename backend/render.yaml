@@ -1,0 +1,82 @@
+# render.yaml
+services:
+  # --- User Service ---
+  - name: user-service         # Render service name (used for internal DNS)
+    type: web                # Service type (web for HTTP services)
+    env: docker              # Use Docker runtime
+    plan: free               # Use the free instance type
+    repo: https://github.com/amitpanwar789/G-Shop # Replace with your repo URL
+    autoDeploy: false         # Automatically deploy on push to the main branch
+    dockerContext: ./user-service # Path to the directory containing the Dockerfile
+    dockerfilePath: ./user-service/Dockerfile # Explicit path to Dockerfile
+    envVars:
+      - key: PORT # App needs to listen on this port
+        value: 5000 # The port your app listens on internally
+      - key: MONGO_URI
+        fromSecret: MONGO_ATLAS_URI # Reference a secret (see below)
+      - key: JWT_SECRET
+        fromSecret: SHARED_JWT_SECRET # Reference a secret
+      - key: NODE_ENV
+        value: production # Usually 'production' on cloud platforms
+
+  # --- Product Service ---
+  - name: product-service
+    type: web
+    env: docker
+    plan: free
+    repo: https://github.com/YOUR_USERNAME/YOUR_REPO
+    autoDeploy: true
+    dockerContext: ./product-service
+    dockerfilePath: ./product-service/Dockerfile
+    envVars:
+      - key: PORT
+        value: 5001
+      - key: MONGO_URI
+        fromSecret: MONGO_ATLAS_URI
+      - key: JWT_SECRET
+        fromSecret: SHARED_JWT_SECRET
+      - key: NODE_ENV
+        value: production
+
+  # --- Order Service ---
+  - name: order-service
+    type: web
+    env: docker
+    plan: free
+    repo: https://github.com/YOUR_USERNAME/YOUR_REPO
+    autoDeploy: true
+    dockerContext: ./order-service
+    dockerfilePath: ./order-service/Dockerfile
+    envVars:
+      - key: PORT
+        value: 5003
+      - key: MONGO_URI
+        fromSecret: MONGO_ATLAS_URI
+      - key: JWT_SECRET
+        fromSecret: SHARED_JWT_SECRET
+      - key: NODE_ENV
+        value: production
+
+  # --- Nginx Reverse Proxy ---
+  - name: nginx # This will be your public-facing service
+    type: web
+    env: docker
+    plan: free
+    repo: https://github.com/YOUR_USERNAME/YOUR_REPO
+    autoDeploy: true
+    dockerContext: ./nginx
+    dockerfilePath: ./nginx/Dockerfile
+    # Nginx typically listens on 80/443, Render handles external mapping and TLS
+    # Ensure your nginx.conf proxies to Render's internal service names and ports:
+    # e.g., proxy_pass http://user-service:5000;
+    #       proxy_pass http://product-service:5001;
+    #       proxy_pass http://order-service:5003;
+
+# --- Define Secrets ---
+# You will create these secrets in the Render Dashboard under Environment Groups
+# or individually per service. This example assumes an Environment Group.
+# secrets:
+#   - group: microservice-secrets
+#     key: MONGO_ATLAS_URI # Your full MongoDB Atlas SRV string from Step 1
+#   - group: microservice-secrets
+#     key: SHARED_JWT_SECRET # Your actual JWT secret value
