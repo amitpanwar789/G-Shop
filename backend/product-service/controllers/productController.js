@@ -26,6 +26,10 @@ const getProducts = AsyncHandler(async (req, res) => {
 // @route   GET /api/products/:id
 // @access  Public
 const getProductById = AsyncHandler(async (req, res) => {
+  if(req.params.id === "undefined"){
+    res.status(404).json();
+    throw new Error("Id not valid");
+  }
   const product = await Product.findById(req.params.id);
 
   if (product) {
