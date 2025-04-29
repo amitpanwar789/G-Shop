@@ -34,13 +34,13 @@ const ProductEditScreen = ({ match, history }) => {
   } = productUpdate;
 
   useEffect(() => {
-    console.log(322)
     if (successUpdate) {
       dispatch({ type: PRODUCT_UPDATE_RESET });
       history.push("/admin/productlist");
     } else {
-      if (!product?.name || product?._id !== productId) {
-        dispatch(listProductDetails(productId));
+      if (!productId || !product?.name || product?._id !== productId) {
+        console.log(productId);
+        if(productId) dispatch(listProductDetails(productId));
       } else {
         setName(product.name);
         setPrice(product.price);

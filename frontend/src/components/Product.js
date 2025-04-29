@@ -22,7 +22,7 @@ function Product({ product }) {
             />
           </Card.Text>
           <Card.Text style={{ color: "#1f2120", fontWeight: "400" }} as="h6">
-            ${product.price}
+            ₹{product.price}
           </Card.Text>
         </Card.Body>
       </Card>
