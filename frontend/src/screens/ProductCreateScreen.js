@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
-import { listProductDetails, updateProduct } from "../actions/productActions";
-import { PRODUCT_UPDATE_RESET } from "../constants/productConstants";
+import { createProduct, listProductDetails, updateProduct } from "../actions/productActions";
+import { PRODUCT_CREATE_REQUEST, PRODUCT_UPDATE_RESET } from "../constants/productConstants";
 
 const ProductEditScreen = ({ match, history }) => {
   const productId = match.params.id;
@@ -33,25 +33,6 @@ const ProductEditScreen = ({ match, history }) => {
     success: successUpdate,
   } = productUpdate;
 
-  useEffect(() => {
-    console.log(322)
-    if (successUpdate) {
-      dispatch({ type: PRODUCT_UPDATE_RESET });
-      history.push("/admin/productlist");
-    } else {
-      if (!product?.name || product?._id !== productId) {
-        dispatch(listProductDetails(productId));
-      } else {
-        setName(product?.name || '');
-        setPrice(product?.price || 0);
-        setImage(product?.image || '');
-        setBrand(product?.brand || '');
-        setCategory(product?.category || '');
-        setCountInStock(product?.countInStock || 0);
-        setDescription(product?.description || '');
-      }
-    }
-  }, [dispatch, history, productId, product, successUpdate]);
 
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0];
@@ -78,18 +59,46 @@ const ProductEditScreen = ({ match, history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    
+    const trimmedName = name?.trim();
+    const trimmedBrand = brand?.trim();
+    const trimmedCategory = category?.trim();
+    const trimmedDescription = description?.trim();
+  
+    if (!trimmedName || !trimmedBrand || !trimmedCategory || !trimmedDescription) {
+      alert('Please fill in all text fields (name, brand, category, description)');
+      return;
+    }
+  
+   
+    if (isNaN(price) || price <= 0) {
+      alert('Price must be greater than 0');
+      return;
+    }
+  
+   
+    if (isNaN(countInStock) || countInStock < 0) {
+      alert('Stock count cannot be negative');
+      return;
+    }
+  
+    if (!image) {
+      alert('Please upload an image');
+      return;
+    }
+  
     dispatch(
-      updateProduct({
-        _id: productId,
-        name,
-        price,
+      createProduct({
+        name: trimmedName,
+        price: Number(price),
         image,
-        brand,
-        category,
-        description,
-        countInStock,
+        brand: trimmedBrand,
+        category: trimmedCategory,
+        description: trimmedDescription,
+        countInStock: Math.floor(Number(countInStock)),
       })
     );
+    history.push("/admin/productlist");
   };
 
   return (
@@ -177,7 +186,7 @@ const ProductEditScreen = ({ match, history }) => {
             </Form.Group>
 
             <Button  type="submit" variant="primary">
-              Update
+              Create Product
             </Button>
           </Form>
         )}

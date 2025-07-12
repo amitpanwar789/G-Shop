@@ -39,7 +39,7 @@ const ProductListScreen = ({ history, match }) => {
 
   useEffect(() => {
     dispatch({ type: PRODUCT_CREATE_RESET });
-    if (!userInfo.isAdmin) {
+    if (!userInfo?.isAdmin) {
       history.push("/login");
     }
     if (successCreate) {
@@ -62,9 +62,10 @@ const ProductListScreen = ({ history, match }) => {
       dispatch(deleteProduct(id));
     }
   };
-
+ 
   const createProductHandler = (product) => {
-    dispatch(createProduct());
+    // dispatch(createProduct());
+    history.push("/admin/product/edit");
   };
 
   return (
@@ -102,12 +103,12 @@ const ProductListScreen = ({ history, match }) => {
             </thead>
             <tbody>
               {products.map((product) => (
-                <tr key={product._id}>
-                  <td>{product._id}</td>
-                  <td>{product.name}</td>
-                  <td>${product.price}</td>
-                  <td>{product.category}</td>
-                  <td>{product.brand}</td>
+                <tr key={product?._id}>
+                  <td>{product?._id}</td>
+                  <td>{product?.name}</td>
+                  <td>${product?.price}</td>
+                  <td>{product?.category}</td>
+                  <td>{product?.brand}</td>
                   <td>
                     <Link to={`/admin/product/${product._id}/edit`}>
                       <Button variant="light" className="btn-sm">

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const Paginate = ({ pages, page, isAdmin = false, keyword = "" }) => {
   return (
     pages > 1 && (
-      <Pagination >
+      <Pagination className="p-4">
         {[...Array(pages).keys()].map((x) => (
           <Link class = "text-decoration-none mr-4 mb-5"
             key={x + 1}
@@ -17,7 +17,7 @@ const Paginate = ({ pages, page, isAdmin = false, keyword = "" }) => {
                 : `/admin/productlist/${x + 1}`
             }
           >
-            <Pagination.Item 
+            <Pagination.Item className="p-1"
               href={
                 !isAdmin
                   ? keyword
