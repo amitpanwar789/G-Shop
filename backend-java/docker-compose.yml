@@ -36,6 +36,28 @@ services:
     networks:
       - gshop-network
 
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - gshop-network
+
+  notification-service:
+    build:
+      context: ./notification-service
+      dockerfile: Dockerfile
+    ports:
+      - "5004:5004"
+    environment:
+      - SERVER_PORT=5004
+      - SPRING_RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - rabbitmq
+    networks:
+      - gshop-network
+
   frontend:
     build:
       context: ../frontend
@@ -58,6 +80,7 @@ services:
       - product-service
       - order-service
       - frontend
+      - notification-service
     networks:
       - gshop-network
 

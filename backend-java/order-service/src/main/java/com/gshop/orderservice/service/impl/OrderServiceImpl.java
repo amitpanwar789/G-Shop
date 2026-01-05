@@ -4,14 +4,19 @@ import com.gshop.orderservice.dto.OrderDto;
 import com.gshop.orderservice.model.Order;
 import com.gshop.orderservice.repository.OrderRepository;
 import com.gshop.orderservice.service.OrderService;
+import com.gshop.orderservice.dto.OrderPlacedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
+    @Autowired
+    private OrderEventPublisher orderEventPublisher;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -36,7 +41,20 @@ public class OrderServiceImpl implements OrderService {
                 .updatedAt(LocalDateTime.now())
                 .build();
 
-        return orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order);
+
+        // Publish Event to RabbitMQ
+        // Ideally we fetch the real email from User Service or JWT.
+        // For simpler demonstration, we simulate the email or assume it might be in the
+        // request.
+        // Here using a placeholder based on UserID
+        com.gshop.orderservice.dto.OrderPlacedEvent event = new com.gshop.orderservice.dto.OrderPlacedEvent(
+                savedOrder.getId(),
+                "user-" + userId + "@gshop.com", // Mock email or extract from Context if available
+                savedOrder.getTotalPrice());
+        orderEventPublisher.publishOrderPlaced(event);
+
+        return savedOrder;
     }
 
     @Override

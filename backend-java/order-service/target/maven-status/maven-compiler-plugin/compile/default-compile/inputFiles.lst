@@ -1,0 +1,16 @@
+/home/amit/G-Shop/backend-java/order-service/src/main/java/com/gshop/orderservice/dto/OrderDto.java
+/home/amit/G-Shop/backend-java/order-service/src/main/java/com/gshop/orderservice/exception/GlobalExceptionHandler.java
+/home/amit/G-Shop/backend-java/order-service/src/main/java/com/gshop/orderservice/OrderServiceApplication.java
+/home/amit/G-Shop/backend-java/order-service/src/main/java/com/gshop/orderservice/config/AuthTokenFilter.java
+/home/amit/G-Shop/backend-java/order-service/src/main/java/com/gshop/orderservice/model/OrderItem.java
+/home/amit/G-Shop/backend-java/order-service/src/main/java/com/gshop/orderservice/config/SecurityConfig.java
+/home/amit/G-Shop/backend-java/order-service/src/main/java/com/gshop/orderservice/service/OrderEventPublisher.java
+/home/amit/G-Shop/backend-java/order-service/src/main/java/com/gshop/orderservice/repository/OrderRepository.java
+/home/amit/G-Shop/backend-java/order-service/src/main/java/com/gshop/orderservice/controller/OrderController.java
+/home/amit/G-Shop/backend-java/order-service/src/main/java/com/gshop/orderservice/model/ShippingAddress.java
+/home/amit/G-Shop/backend-java/order-service/src/main/java/com/gshop/orderservice/config/RabbitMQConfig.java
+/home/amit/G-Shop/backend-java/order-service/src/main/java/com/gshop/orderservice/service/OrderService.java
+/home/amit/G-Shop/backend-java/order-service/src/main/java/com/gshop/orderservice/dto/OrderPlacedEvent.java
+/home/amit/G-Shop/backend-java/order-service/src/main/java/com/gshop/orderservice/service/impl/OrderServiceImpl.java
+/home/amit/G-Shop/backend-java/order-service/src/main/java/com/gshop/orderservice/util/JwtUtils.java
+/home/amit/G-Shop/backend-java/order-service/src/main/java/com/gshop/orderservice/model/Order.java
